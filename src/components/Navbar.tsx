@@ -2,10 +2,12 @@ import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/contexts/CartContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { getCartItemsCount } = useCart();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -47,9 +49,11 @@ const Navbar = () => {
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  0
-                </span>
+                {getCartItemsCount() > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {getCartItemsCount()}
+                  </span>
+                )}
               </Button>
             </Link>
 
